@@ -13,12 +13,12 @@ public class SendRabbit {
 
     public void sender() {
 
-        rabbitTemplate.convertAndSend("queue1", "Да сука");
+        rabbitTemplate.convertAndSend("queue", "Да сука");
 
     }
 
 
     public void giveme() {
-        System.out.println(rabbitTemplate.receive("queue1"));
+        System.out.println(rabbitTemplate.receive("queue"));
     }
 }

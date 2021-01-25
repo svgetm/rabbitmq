@@ -1,8 +1,10 @@
 package ru.getmanenko.rabbitmq.config;
 
 
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -37,8 +39,21 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Queue myQueue1() {
-        return new Queue("queue1");
+    public Queue myQueue() {
+        return new Queue("queue");
+    }
+
+    @Bean
+    public RabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory =
+                new SimpleRabbitListenerContainerFactory();
+        rabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
+        rabbitListenerContainerFactory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        int concurrency = Runtime.getRuntime().availableProcessors();
+        rabbitListenerContainerFactory.setConcurrentConsumers(concurrency);
+        rabbitListenerContainerFactory.setMaxConcurrentConsumers(concurrency * 2);
+        rabbitListenerContainerFactory.setPrefetchCount(10);
+        return rabbitListenerContainerFactory;
     }
 
 }
