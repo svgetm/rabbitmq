@@ -11,14 +11,10 @@ public class SendRabbit {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    public void sender() {
+    public void senderToQueue() {
 
-        rabbitTemplate.convertAndSend("queue", "Да сука");
+        rabbitTemplate.convertAndSend("queue", "Test message");
 
     }
 
-
-    public void giveme() {
-        System.out.println(rabbitTemplate.receive("queue"));
-    }
 }
