@@ -7,5 +7,13 @@
     <context:component-scan base-package="ru.getmanenko.rabbitmq"/>
     
     <gui:screens base-packages="ru.getmanenko.rabbitmq.web"/>
+    <bean id="rabbitmq_proxyCreator" class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
+        <property name="serverSelector" ref="cuba_ServerSelector"/>
+        <property name="remoteServices">
+            <map>
+                <entry key="rabbitmq_SendMessService" value="ru.getmanenko.rabbitmq.service.SendMessService"/>
+            </map>
+        </property>
+    </bean>
 
 </beans>
